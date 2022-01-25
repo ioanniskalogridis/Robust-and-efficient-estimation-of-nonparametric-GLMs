@@ -1,6 +1,7 @@
 require(SemiPar)
 require(quantreg)
 require(MASS)
+require(mgcv)
 
 ########################################################## LIDAR ###############################################################
 data(lidar)
