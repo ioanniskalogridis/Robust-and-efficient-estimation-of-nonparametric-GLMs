@@ -1,6 +1,7 @@
 require(ggplot2)
 require(mgcv)
 
+# Import data
 zf <- read.table("C:/Users/u0111580/Desktop/LOSdata.csv", header = TRUE, sep = ";")
 # modify the above line as needed
 Pop  = data.frame(LOS=zf$LOS,Age=zf$Age,Sex=zf$Sexe,DRG=zf$DRG,MDC=zf$MDC,Nbdg=zf$NbDiag,Nbtt=zf$NbAct,CW=zf$CWeff)
@@ -11,7 +12,7 @@ pop = Pop[Pop$MDC=="02",]
 pop <- pop[order(pop$Age),]
 x <- pop$Age
 y <- pop$LOS-1
-plot(x, y)
+plot(x, y, cex = 1.2, pch = 19)
 pr <- dpd(x, y, family = "p")
 pr.gam <- gam(y~s(x, bs = "cr", k = 40), family = poisson)
 lines(x, pr$fitted, lwd = 3, col = "blue")
@@ -34,7 +35,7 @@ pop = Pop[Pop$MDC=="12",]
 pop <- pop[order(pop$Age),]
 x <- pop$Age
 y <- pop$LOS-1
-plot(x, y)
+plot(x, y, cex = 1.2, pch = 19)
 pr <- dpd(x, y, family = "p")
 pr.gam <- gam(y~s(x, bs = "cr", k = 40), family = poisson)
 lines(x, pr$fitted, lwd = 3, col = "blue")
