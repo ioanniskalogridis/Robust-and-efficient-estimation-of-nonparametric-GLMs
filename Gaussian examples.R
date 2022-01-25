@@ -41,10 +41,11 @@ fit.mamGIC <- dpd(x, y, sel = "GIC")
 fit.gam <- gam(y~s(x, k = 40, bs = "cr"))
 lines(x, fit.mamAIC$fitted, lwd = 4, col = "blue")
 lines(x, fit.mamGIC$fitted, lwd = 4, col = "darkgray")
-lines(x, fit.gam$fitted.values, lwd = 4, col = "red", lty = 3)
-legend("bottomright", legend = c("DPD with AIC", "DPD with GIC", "GAM"), lwd = c(4,4, 4), lty = c(1,1, 3),
+lines(x, fit.gam$fitted.values, lwd = 4, col = "red", lty = 2)
+legend("bottomright", legend = c("DPD with AIC", "DPD with GIC", "GAM"), lwd = c(4,4, 4), lty = c(1,1, 2),
        col = c("blue", "darkgray", "red"), cex = 1.4)
 fit.mamGIC$alpha
+
 hist(fit.mamGIC$p.resids, col = "gray") 
 # Numerous outliers
 
