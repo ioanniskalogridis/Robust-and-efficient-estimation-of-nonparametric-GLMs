@@ -38,6 +38,9 @@ y <- pima$diabetes
 plot(x, y)
 fit <- dpd(x, y, family = "b")
 fit.gam <- mgcv::gam(y~s(x, k = 40), family = binomial)
+
+lines(x, fit$fitted, lwd = 3, col = "blue", type = "l")
+lines(x, fit.gam$fitted.values, lwd = 3, col = "red")
 fit$alpha
 
 hist(fit$a.resids, xlab = "Anscombe residuals") # Anscombe residuals 
