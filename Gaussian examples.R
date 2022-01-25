@@ -2,7 +2,6 @@ require(SemiPar)
 require(quantreg)
 require(MASS)
 
-
 ########################################################## LIDAR ###############################################################
 data(lidar)
 y <- lidar$logratio
