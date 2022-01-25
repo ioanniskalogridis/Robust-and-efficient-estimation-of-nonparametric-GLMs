@@ -42,7 +42,7 @@ fit$alpha
 
 hist(fit$a.resids, xlab = "Anscombe residuals") # Anscombe residuals 
 
-outliers <- ifelse(abs(fit$a.resids)>2.6, 1, 0) # Anscombe residuals
+outliers <- ifelse(abs(fit$a.resids)>2.6, 1, 0) 
 sum(outliers)
 df <- data.frame(x = x, y = y, fit.dpd =  fit$fitted, fit.gam = fit.gam$fitted.values, out = outliers )
 p <- ggplot(df, aes(x = x, y = y, colour = as.factor(out), shape = as.factor(out) ))  + labs(x = "Plasma glucose", y = "Probability of Diabetes")

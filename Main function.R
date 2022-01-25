@@ -411,7 +411,7 @@ dpd <- function(x, y, family = 'g', m = 2, toler = 1e-10, maxiter = 500, alpha.c
       return(IC)
     }
     lambda.cand <- c(2e-06, 7e-06, 2e-05, 7e-05, 2e-04, 7e-04, 2e-03, 7e-03, 2e-02, 7e-02, 2e-01, 7e-01, 3)
-    lambda.e.in <-  vapply(lambda.cand, FUN = AIC.f, beta.in = beta.il, alpha = 1, FUN.VALUE = numeric(1))
+    lambda.e.in <-  vapply(lambda.cand, FUN = Pen.cr, beta.in = beta.il, alpha = 1, FUN.VALUE = numeric(1))
     
     wm <- which.min(lambda.e.in)
     if(wm== 1){wm <- 2}
@@ -422,11 +422,11 @@ dpd <- function(x, y, family = 'g', m = 2, toler = 1e-10, maxiter = 500, alpha.c
     B.m <-  bsplinepen(bsb, Lfdobj = 0)
     
     comp.alpha <-  function(alpha){
-      lambda.e <- vapply(lambda.cand, FUN = AIC.f, beta.in = beta.opt.in, alpha = alpha, FUN.VALUE = numeric(1))
+      lambda.e <- vapply(lambda.cand, FUN = Pen.cr, beta.in = beta.opt.in, alpha = alpha, FUN.VALUE = numeric(1))
       wm <- which.min(lambda.e)
       if(wm== 1){wm <- 2}
       if(wm==length(lambda.cand)){ wm<- (length(lambda.cand)-1)}
-      lambda.opt  <- optimize(f = AIC.f, interval = c(lambda.cand[wm-1], lambda.cand[wm+1]), alpha = alpha, beta.in = beta.opt.in)$minimum
+      lambda.opt  <- optimize(f = Pen.cr, interval = c(lambda.cand[wm-1], lambda.cand[wm+1]), alpha = alpha, beta.in = beta.opt.in)$minimum
       opt. <- newraph(lambda.opt, beta.in = beta.opt.in, maxit = maxiter, alpha = alpha)
       beta.opt  <- opt.$beta
       gr <- opt.$gr
