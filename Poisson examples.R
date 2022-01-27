@@ -3,7 +3,7 @@ require(mgcv)
 
 # Import data
 zf <- read.table(file = file.choose(), header = TRUE, sep = ";")
-# modify the above line as needed
+# select the file "LOSdata.csv"
 Pop  = data.frame(LOS=zf$LOS,Age=zf$Age,Sex=zf$Sexe,DRG=zf$DRG,MDC=zf$MDC,Nbdg=zf$NbDiag,Nbtt=zf$NbAct,CW=zf$CWeff)
 table(Pop$MDC) # Number of observations per DRG
 
