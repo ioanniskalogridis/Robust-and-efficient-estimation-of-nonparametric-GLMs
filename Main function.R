@@ -21,7 +21,7 @@ dpd <- function(x, y, family = 'g', m = 2, toler = 1e-10, maxiter = 500, alpha.c
   # maxiter is the naximum number of allowed iterations
   # alpha.cand is a vector of candidate values for the tuning parameter (alpha in the notation of the paper)
   # nsteps denotes the number of allowed iterations for the selection of the tuning parameter
-  # sele refers to the information criterion used in the determination of the penalty parameter
+  # sel refers to the information criterion used in the determination of the penalty parameter
   # acceptable values are: AIC for the AIC of Hastie and Tibshirani (1990) and GIC for the criterion of Konichi and Kitagawa (2008)
   
   # The estimator is a smoothing-spline for n<50 and a penalized spline for n>=50
