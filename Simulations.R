@@ -99,4 +99,56 @@ mean(mse.gam)*100 ; median(mse.dpd)*100
 mean(mse.il)*100 ; median(mse.il)*100
 
 # mean(mse.rgam, na.rm = TRUE)*100 ; median(mse.rgam, na.rm = TRUE)*100
+#hist(alpha.dpd)
+
+###################################################### Poisson data ############################################################
+
+nrep <- 10
+n <- 200
+
+mse.dpd <- rep(NA, nrep)
+alpha.dpd <- rep(NA, nrep)
+mse.dpd1 <- rep(NA, nrep)
+mse.gam <- rep(NA, nrep)
+mse.il <- rep(NA, nrep)
+# mse.lo <- rep(NA, nrep)
+
+for(j in 1:nrep){
+  print(j)
+  x <- seq(1/(n+1), n/(n+1), len = n)
+  
+  f1 <- -sin(5*x/1.2)/0.8-1
+  # f1 <- 1.8*sin(3.4*x^2)
+  
+  y <- rpois(n, lambda = exp(f1))
+  # smpl <- sample(1:n, 0.1*n)
+  # y[smpl] <- rpois(length(smpl), lambda = 3*exp(f1[smpl]))
+  
+  fit <- dpd(x, y, family = "p")
+  fit1 <- dpd(x, y, family = "p", alpha.cand = c(1))
+  fit.gam <- gam(y~s(x, k = 60, bs = "cr"), family = poisson)
+  # fit.rgam <- rgam(x,y, family = "binomial", ni = rep(1, n))
+  fit.il <- DoubleRobGam(y ~ bsp(x, nknots = 36, order = 2, p = 3), family="poisson", selection = "RAIC")
+  
+  mean.t <- exp(f1)
+  # mean.rgam <- fit.rgam$fitted.values
+  mean.dpd <- fit$fitted
+  mean.dpd1 <- fit1$fitted
+  mean.gam <- fit.gam$fitted.values
+  mean.il <- fit.il$fitted.values
+  
+  # mse.rgam[j] <- mean(( mean.t - mean.rgam)^2 )
+  mse.dpd[j] <- mean((mean.dpd-mean.t)^2)
+  mse.dpd1[j] <- mean((mean.dpd1-mean.t)^2)
+  alpha.dpd[j] <- fit$alpha
+  mse.gam[j] <- mean((mean.gam-mean.t)^2)
+  mse.il[j] <- mean((mean.il-mean.t)^2)
+}
+
+mean(mse.dpd)*100 ; median(mse.dpd)*100
+mean(mse.dpd1)*100 ; median(mse.dpd1)*100
+mean(mse.gam)*100 ; median(mse.dpd)*100
+mean(mse.il)*100 ; median(mse.il)*100
+
+# mean(mse.rgam, na.rm = TRUE)*100 ; median(mse.rgam, na.rm = TRUE)*100
 hist(alpha.dpd)
