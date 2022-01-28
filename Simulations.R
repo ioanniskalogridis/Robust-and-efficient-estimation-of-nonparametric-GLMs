@@ -1,4 +1,4 @@
-  require(EnvStats)
+  require(EnvStats
   require(mgcv)
   remotes::install_github("ilapros/DoubleRobGam")
   require(DoubleRobGam)
