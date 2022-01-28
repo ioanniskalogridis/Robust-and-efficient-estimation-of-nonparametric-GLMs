@@ -50,7 +50,7 @@ hist(alpha.dpd)
 
 ###################################################### Bernoulli data ############################################################
 
-nrep <- 20
+nrep <- 10
 n <- 200
 
 mse.dpd <- rep(NA, nrep)
@@ -67,17 +67,17 @@ for(j in 1:nrep){
   f1 <- -sin(5*x/1.2)/0.8-1
   # f1 <- 1.8*sin(3.4*x^2)
   
+  inv.logit <- function(x) 1/(1+exp(-x))
   y <- rbinom(n, size = 1, prob = inv.logit(f1))
   # smpl <- sample(1:n, 0.05*n)
   # y[smpl] <- 1-y[smpl]
   
   fit <- dpd(x, y, family = "b")
   fit1 <- dpd(x, y, family = "b", alpha.cand = c(1))
-  fit.gam <- gam(y~s(x, k = 60), family = binomial)
+  fit.gam <- gam(y~s(x, k = 60, bs = "cr"), family = binomial)
   # fit.rgam <- rgam(x,y, family = "binomial", ni = rep(1, n))
   fit.il <- DoubleRobGam(y ~ bsp(x, nknots = 36, order = 2, p = 3), family="binomial", selection = "RAIC")
  
-  inv.logit <- function(x) 1/(1+exp(-x))
   mean.t <- inv.logit(f1)
   # mean.rgam <- fit.rgam$fitted.values
   mean.dpd <- fit$fitted
@@ -88,7 +88,7 @@ for(j in 1:nrep){
   # mse.rgam[j] <- mean(( mean.t - mean.rgam)^2 )
   mse.dpd[j] <- mean((mean.dpd-mean.t)^2)
   mse.dpd1[j] <- mean((mean.dpd1-mean.t)^2)
-  alpha.dpe[j] <- fit$alpha
+  alpha.dpd[j] <- fit$alpha
   mse.gam[j] <- mean((mean.gam-mean.t)^2)
   mse.il[j] <- mean((mean.il-mean.t)^2)
 }
@@ -98,5 +98,5 @@ mean(mse.dpd1)*100 ; median(mse.dpd1)*100
 mean(mse.gam)*100 ; median(mse.dpd)*100
 mean(mse.il)*100 ; median(mse.il)*100
 
-mean(mse.rgam, na.rm = TRUE)*100 ; median(mse.rgam, na.rm = TRUE)*100
+# mean(mse.rgam, na.rm = TRUE)*100 ; median(mse.rgam, na.rm = TRUE)*100
 hist(alpha.dpd)

@@ -9,7 +9,7 @@ remotes::install_github("ilapros/DoubleRobGam")
 require(DoubleRobGam)
 require(maxLik)
 
-dpd <- function(x, y, family = 'g', m = 2, toler = 1e-10, maxiter = 500, alpha.cand = seq(1e-02, 1, len = 10), nsteps = 25,
+dpd <- function(x, y, family = 'g', m = 2, toler = 1e-10, maxiter = 500, alpha.cand = seq(1e-02, 1, len = 20), nsteps = 25,
                 sel = "AIC"){
   # Main function
   # x is the one-dimensional predictor
