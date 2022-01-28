@@ -103,7 +103,7 @@ mean(mse.il)*100 ; median(mse.il)*100
 
 ###################################################### Poisson data ############################################################
 
-nrep <- 10
+nrep <- 15
 n <- 200
 
 mse.dpd <- rep(NA, nrep)
@@ -121,8 +121,8 @@ for(j in 1:nrep){
   # f1 <- 1.8*sin(3.4*x^2)
   
   y <- rpois(n, lambda = exp(f1))
-  # smpl <- sample(1:n, 0.1*n)
-  # y[smpl] <- rpois(length(smpl), lambda = 3*exp(f1[smpl]))
+  smpl <- sample(1:n, 0.05*n)
+  y[smpl] <- rpois(length(smpl), lambda = 3*exp(f1[smpl]))
   
   fit <- dpd(x, y, family = "p")
   fit1 <- dpd(x, y, family = "p", alpha.cand = c(1))
