@@ -20,18 +20,21 @@ for(i in 1:nrep){
   # f1 <- -sin(5*x/1.2)/0.8-1
   f1 <- 1.8*sin(3.4*x^2)
   
+  #y <- f1 + rnormMix(n, 0, 1, 0, 9, p.mix = 0)
   y <- f1 + rnormMix(n, 0, 1, 0, 9, p.mix = 0.05)
+  #y <- f1 + rnormMix(n, 0, 1, 0, 9, p.mix = 0.1)
+  
   fit <- dpd(x, y, family = "g")
   alpha.dpd[i] <- fit$alpha
-  fit1 <- dpd(x, y, fam = "g", alpha.cand = c(1))
+  fit1 <- dpd(x, y, family = "g", alpha.cand = c(1))
   fit.gam <- mgcv::gam(y~s(x, k = 60, bs = "cr"), method = "GCV.Cp")
   fit.il <- DoubleRobGam(y ~ bsp(x, nknots = 36, order = 2, p = 3), family="gaussian", selection = "RAIC",
                          scale = scaleM(diff(y), delta = 3/4, tuning.chi = sqrt(2)*0.70417 ))
-  fit.lo <- loess_wrapper_extrapolate(x, y)
+  # fit.lo <- loess_wrapper_extrapolate(x, y)
 
-  mse.dpd[i] <- mean( (f1-fit )^2)
+  mse.dpd[i] <- mean( (f1-fit$fitted )^2)
   mse.gam[i] <- mean((f1-predict.gam(fit.gam))^2)
-  mse.dpd1[i] <- mean((f1 - fit1$est)^2)
+  mse.dpd1[i] <- mean((f1 - fit1$fitted)^2)
   mse.il[i] <- mean( (f1-fit.il$fitted.values )^2)
   # mse.lo[i] <- mean((f1 - predict(fit.lo))^2)
 }
@@ -39,3 +42,4 @@ for(i in 1:nrep){
 mean(mse.dpd)*100 ; median(mse.dpd)*100
 mean(mse.dpd1)*100 ; median(mse.dpd1)*100
 mean(mse.gam)*100 ; median(mse.dpd)*100
+mean(mse.il)*100 ; median(mse.il)*100
