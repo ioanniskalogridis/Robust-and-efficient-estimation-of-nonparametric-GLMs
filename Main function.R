@@ -101,7 +101,7 @@ dpd <- function(x, y, family = 'g', m = 2, toler = 1e-10, maxiter = 500, alpha.c
         NP <- scale(t(bsbe), center = FALSE, scale = c(1/weights))%*%bsbe
         hessian.m <-  NP + 2*lambda*Pen.matrix
         hat.tr <- sum(diag(solve(hessian.m)%*%NP))
-        AIC <- sum(rho.f(solv.irls$resids/scale, tun = alpha)) + 2*hat.tr
+        AIC <- 2*sum(rho.f(solv.irls$resids/scale, tun = alpha)) + 2*hat.tr
         return(AIC)
       }
     } else if(sel == "GIC"){
@@ -114,7 +114,7 @@ dpd <- function(x, y, family = 'g', m = 2, toler = 1e-10, maxiter = 500, alpha.c
         gr <- -psi.f(solv.irls$resids/scale, tun = alpha)/scale
         Q.m <-  scale(t(bsbe), center = FALSE, scale = 1/(gr*c(solv.irls$resids/scale^2)) )%*%bsbe
         hat.tr <- sum(diag(  -solve(hessian.m)%*%Q.m   ))
-        GIC <- sum(rho.f(solv.irls$resids/scale, tun = alpha)) + 2*hat.tr
+        GIC <- 2*sum(rho.f(solv.irls$resids/scale, tun = alpha)) + 2*hat.tr
         return(GIC)
       }
     }
